@@ -9,6 +9,7 @@ using namespace std;
 
 class graph{
 public:
+  //2d lsit of edges, and a list of the verticies, with initialization function
   int g[20][20];
   char vertices[20];
   int numV;
@@ -24,6 +25,7 @@ public:
     
   }
 
+  //function to display the list of vertices, along with the 2d list of edge lengths
   void display(){
     cout << "adjacency table:" << endl;
     cout << "Vertices:" << endl;
@@ -45,6 +47,7 @@ public:
     cout << endl;
   }
 
+  //add vertex, with the name and add 1 to the numV
   void addVertex(char name){
     for(int i = 0;i<20;i++){
       if(vertices[i]==name){
@@ -59,6 +62,7 @@ public:
     }
   }
 
+  //for the remove vertex, if the vertex exists, remove it's row from the 2d list, and it's column and subtract 1 from numV. 
   void removeVertex(char name){
     int index = -1;
     for(int i = 0;i<numV;i++){
@@ -94,6 +98,7 @@ public:
     cout << name << " is removed." << endl;
   }
 
+  //to add the edge, check if both veerticies exist and then changing the corect value in the 2d list
   void addEdge(char v1, char v2, int weight){
     int v1Index = -1;
     int v2Index = -1;
@@ -116,6 +121,7 @@ public:
     }
   }
 
+  //to remove the edge, check if the two verticies exist and then remove the appropiate value from the 2d list
   void removeEdge(char a, char b){
     int v1 = -1;
     int v2 = -1;
@@ -143,6 +149,7 @@ public:
     
   }
 
+  //dijkistrias algorithm to find the shortest path from one vertex to another
   void Dij(char start, char end){
     int v1 = -1;
     int v2 = -1;
@@ -230,7 +237,7 @@ int main(){
   bool justKeepGoing = true;
   char inputt[20];
 
-  while(justKeepGoing){
+  while(justKeepGoing){ //loop to ask for input and call the correct function on graph g
     cout << "--------------------------------------" << endl;
     g.display();
 
@@ -291,7 +298,7 @@ int main(){
       g.Dij(v1, v2);
     } else if (strcmp(inputt, "Q")==0){
       justKeepGoing = false;
-    } else if (strcmp(inputt, "ABC")==0){
+    } else if (strcmp(inputt, "ABC")==0){//testing thing
       g.addVertex('A');
       g.addVertex('B');
       g.addVertex('C');
