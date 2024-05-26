@@ -1,0 +1,132 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+class graph{
+public:
+  int g[20][20];
+  char vertices[20];
+  int numV;
+
+  graph(){
+    numV = 0;
+    for(int i = 0;i<20;i++){
+      for(int j = 0;j<20;j++){
+	g[i][j] = 0;
+      }
+    }
+    
+    
+  }
+
+  void display(){
+    cout << "adjacency table:" << endl;
+    cout << "Vertices:\t";
+    for(int i = 0;i<numV;i++){
+      cout << setw(4) << vertices[i];
+    }
+    cout << endl;
+
+    for(int i = 0;i<numV;i++){
+      for(int j = 0;j<numV;j++){
+	cout << setW(4) << g[i][j];
+      }
+      cout << endl;
+    }
+    cout << endl;
+  }
+
+  void addVertex(char name){
+    for(int i = 0;i<20;i++){
+      if(vertices[i]==label){
+	cout << "this name is already in use" << endl;
+      } else{
+	vertices[numV] = name;
+	numV++;
+	cout << "verticie has been added" << endl;
+      }
+    }
+  }
+
+  void removeVertex(char name){
+    int index = -1;
+    for(int i = 0;i<numV;i++){
+      if(vertices[i] == name){
+	index = i;
+      }
+    }
+    if(index == -1){
+      cout << "vertex not found" << endl;
+      return;
+    }
+    for(int i = index;i<numV-1;i++){
+      vertices[i] = vertices[i+1];
+      for(int j = 0;j<numV;j++){
+	g[i][j] = g[i+1][j]
+      }
+    }
+    vertices[numV-1] = '\0';
+    numV--;
+
+    for(int i = index; i < numV; i++) {
+      for(int j = 0; j < numV; j++) { 
+	g[i][j] = g[i +1][j];
+      }
+    }
+
+    for(int i = 0;i<numV;i++){
+      g[i][index] = 0;
+    }
+    cout << label << " is removed." << endl;
+  }
+
+  void addEdge(char v1, char v2, int weight){
+    int v1Index = -1;
+    int v2Index = -1;
+    for(int i = 0;i<numV;i++){
+      if(vertices[i] == v1){
+	v1Index = i;
+      }
+      if(vertices[i] == v2){
+	v2Index = i;
+      }
+    }
+
+    if(v1Index != -1 && v2Index != -1){
+      g[v1Index][v2Index] = weight;
+      cout << "edge added" << endl;
+    } else if(v1Index == v2Index){
+      cout << "edge can't be added between the same verticie" << endl;
+    } else {
+      cout << "edge doesn't exist" << endl;
+    }
+  }
+
+  void removeEdge(char a, char b){
+    int v1 = -1;
+    int v2 = -1;
+    for(int i = 0;i<numV;i++){
+      if(vertices[i] == v1){
+        v1 = i;
+      }
+      if(vertices[i] == v2){
+        v2 = i;
+      }
+    }
+
+    if(v1 == -1 || v2 == -1){
+      cout << "one or more of the edges does not exist" << endl;
+      return;
+    }
+    if(g[v1][v2] == 0){
+      cout << "edge doesn't exist between verticies" << endl;
+      return;
+    }
+    g[v1][v2] = 0;
+
+    cout << "edge removed" << endl;
+
+    
+  }
+}
