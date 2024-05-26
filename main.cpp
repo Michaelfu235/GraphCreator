@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <ios>
 #include <algorithm>
+#include <climits>
 
 using namespace std;
 
@@ -142,6 +143,84 @@ public:
     
   }
 
+  void Dij(char start, char end){
+    int v1 = -1;
+    int v2 = -1;
+    for(int i = 0;i<numV;i++){
+      if(vertices[i] == start){
+        v1 = i;
+      }
+      if(vertices[i] == end){
+        v2 = i;
+      }
+    }
+
+    if(v1 == -1 || v2 == -1){
+      cout << "one or more of the verticies doesn't exist." << endl;
+      return;
+    }
+
+    int dist[20];
+    int prev[20];
+    bool visited[20];
+
+    for(int i = 0;i<numV;i++){
+      dist[i] = INT_MAX;
+      prev[i] = -1;
+      visited[i] = false;
+    }
+
+    dist[v1] = 0;
+
+    for(int count = 0;count < numV-1;count++){
+      int minD = INT_MAX;
+      int minIndex = -1;
+
+      for(int i = 0;i<numV;i++){
+        if(visited[i] == false && dist[i] < minD){
+          minD = dist[i];
+          minIndex = i;
+        }
+      }
+
+      visited[minIndex] = true;
+
+      for(int i = 0;i<numV;i++){
+        if(visited[i] == false && g[minIndex][i] != 0 && dist[minIndex] != INT_MAX && dist[minIndex] + g[minIndex][i] < dist[i]){
+          dist[i] = dist[minIndex] + g[minIndex][i];
+          prev[i] = minIndex;
+        }
+      }
+    }
+
+    if(dist[v2] == INT_MAX || dist[v2]==INT_MIN || dist[v2]==-2119027900){
+      cout << "No path exists between the 2 verticecs" << endl;
+      return;
+    }
+
+    int path[20];
+    int pathSize = 0;
+    int currentVertex = v2;
+
+    while(currentVertex != -1){
+      path[pathSize] = currentVertex;
+      currentVertex = prev[currentVertex];
+      pathSize++;
+    }
+
+    cout << "shortest path from " << vertices[v1] << " to " << vertices[v2] << ":" << endl;
+    for(int i = pathSize-1;i>=0;i--){
+      cout << vertices[path[i]];
+      if(i != 0){
+        cout << " -> ";
+      }
+    }
+    cout << endl;
+    cout << "Total distance is " << dist[v2] << endl;
+
+  }
+
+
 
   
 };
@@ -199,8 +278,39 @@ int main(){
       cin.ignore();
 
       g.removeEdge(v1, v2);
+    } else if (strcmp(inputt, "F")==0){
+      char v1, v2;
+
+      cout << "starting verticie?" << endl;
+      cin >> v1;
+      cin.ignore();
+      cout << "ending verticie?" << endl;
+      cin >> v2;
+      cin.ignore();
+
+      g.Dij(v1, v2);
     } else if (strcmp(inputt, "Q")==0){
       justKeepGoing = false;
+    } else if (strcmp(inputt, "ABC")==0){
+      g.addVertex('A');
+      g.addVertex('B');
+      g.addVertex('C');
+      g.addVertex('D');
+      g.addVertex('E');
+      g.addEdge('A', 'B', 3);
+      g.addEdge('A','E',7);
+      g.addEdge('B','A',2);
+      g.addEdge('B','C',5);
+      g.addEdge('B','D',4);
+      g.addEdge('C','B',2);
+      g.addEdge('C','E',6);
+      g.addEdge('D','A',5);
+      g.addEdge('D','B',5);
+      g.addEdge('D','C',6);
+      g.addEdge('D','E',2);
+      g.addEdge('E','A',3);
+      g.addEdge('E','D',3);
+
     }
     
   }
